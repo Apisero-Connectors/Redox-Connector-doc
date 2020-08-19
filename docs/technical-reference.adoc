@@ -15,6 +15,7 @@
 This specification document outlines the instructions for using Redox Connector operations.
 
 ⦁   *Background*
+
 Redox provides integration infrastructure that can be managed by your team through a single platform and connection. The Redox integration platform has been built based on experience with millions of messages, thousands of HL7 feeds and EHR vendor API calls, and with hundreds of healthcare organizations and healthcare software providers.
 
 ⦁   *Overview*
@@ -23,7 +24,7 @@ Redox exists to improve healthcare by uniting patients and providers through eas
 
 *A high-level diagram of the architecture is shown below*
 
-image::img/architectural-diagram.png[]
+image::img/redox-architecture-diagram.png[]
 
 == ⦁	LIST OF OPERATIONS SUPPORTED BY THE REDOX CONNECTOR:
 == Query
@@ -40,16 +41,17 @@ image::img/architectural-diagram.png[]
 |7 |Scheduling(AvailableSlots) |POST Request |This query finds and returns times available for booking an appointment within a given time range.  |Required fields are *Meta.DataModel*, *Meta.EventType*, *StartDateTime*  |Returns JSON Response
 |8 |Scheduling(Booked) |POST Request |This query finds and returns booked appointments within a given time range. |Required fields are *Meta.DataModel*, *Meta.EventType*, *StartDateTime*  |Returns JSON Response
 |9 |PatientSearch(Query) |POST Request |The Patient Search query will use a subset of patient demographic information to find a patient record match. This is often useful to retrieve the specific identifiers required for subsequent calls on a patient chart. |Required fields are *Meta.DataModel,* *Meta.EventType* |Returns JSON Response
-|10|Provider(ProviderQuery) |POST Request |This query finds and returns matching providers given the provided search parameter. The response for this query is the ProviderQueryResponse.When using this query, the required elements and populated response will be variable depending on the system you are integrating with. Your Redox team will provide details on which elements are required by the EHR during your install process.Required fields are *Meta.DataModel,* *Meta.EventType* |Returns JSON Response
-|11 |Referral(Query) |POST Request |The Referral Query will use a subset of patient demographic and insurance information to find matching referral records.Required fields are *Meta.DataModel,* *Meta.EventType,* *Patient.Identifiers[].ID,* *Patient.Identifiers[].IDType*|Returns JSON Response
+|10 |Provider(ProviderQuery) |POST Request |This query finds and returns matching providers given the provided search parameter. The response for this query is the ProviderQueryResponse.When using this query, the required elements and populated response will be variable depending on the system you are integrating with. Your Redox team will provide details on which elements are required by the EHR during your install process. |Required fields are *Meta.DataModel,* *Meta.EventType* |Returns JSON Response
+|11 |Referral(Query) |POST Request |The Referral Query will use a subset of patient demographic and insurance information to find matching referral records.|Required fields are *Meta.DataModel,* *Meta.EventType,* *Patient.Identifiers[].ID,* *Patient.Identifiers[].IDType*|Returns JSON Response
+
 |===
 
 == Endpoint
 [%header%autowidth.spread]
 |===
 |Sr.No |Business Function |Operations |Description |Inbound |Outbound
-|1 |Clinical Summary(PatientPush) |POST Request |Use PatientPush to send a Clinical Summary to another application or to an EHR or HIE as a Continuity of Care Document (CCD).|Required fields are  |Returns JSON Response
-|2 |Clinical Summary(VisitPush) |POST Request |Use VisitPush to send a Visit Summary to another application or to an EHR. |Required fields are |Returns JSON Response
+|1 |Clinical Summary(PatientPush) |POST Request |Use PatientPush to send a Clinical Summary to another application or to an EHR or HIE as a Continuity of Care Document (CCD).|Required fields are *Header.Document.ID,* *Header.Document.Locale,* *Header.Document.Title,* *Header.Document.DateTime,* *Header.Patient.Identifiers[].ID,* *Header.Patient.Identifiers[].IDType,* *Header.Patient.Demographics.FirstName,* *Header.Patient.Demographics.LastName,* *Header.Patient.Demographics.DOB,* *Header.Patient.Demographics.Sex,* *Header.Document.Visit.VisitNumber,* *AdvanceDirectives[].Type.Code,* *AdvanceDirectives[].Code,* *AdvanceDirectives[].StartDate,* *Allergies[].Type.Code,* *Allergies[].Substance.Code,* *Allergies[].Reaction[].Code,* *Allergies[].Status.Code,* *Encounters[].Type.Code,* *Encounters[].DateTime,* *FamilyHistory[].Relation.Code,* *FamilyHistory[].Problems[].Code,* *FamilyHistory[].Problems[].Type.Code,* *Immunizations[].DateTime,* *Immunizations[].Product.Code,* *MedicalEquipment[].Status,* *Medications[].Prescription,* *Medications[].StartDate,* *Medications[].Product.Code,* *Problems[].Code,* *Problems[].Category.Code,* *Results[].Code,* *Results[].Status,* *Results[].Observations[].Code,* *Results[].Observations[].Status,* *Results[].Observations[].DateTime,* *Results[].Observations[].Value,* *Results[].Observations[].Units,* *VitalSigns[].Observations[].Code,* *VitalSigns[].Observations[].Status,* *VitalSigns[].Observations[].DateTime,* *VitalSigns[].Observations[].Value,* *VitalSigns[].Observations[].Units*  |Returns JSON Response
+|2 |Clinical Summary(VisitPush) |POST Request |Use VisitPush to send a Visit Summary to another application or to an EHR. |Required fields are *Header.Document.ID,* *Header.Document.Locale,* *Header.Document.Title,* *Header.Document.DateTime,* *Header.Patient.Identifiers[].ID,* *Header.Patient.Identifiers[].IDType,* *Header.Patient.Demographics.FirstName,* *Header.Patient.Demographics.LastName,* *Header.Patient.Demographics.DOB,* *Header.Patient.Demographics.Sex,* *Header.Document.Visit.VisitNumber,* *AdvanceDirectives[].Type.Code,* *AdvanceDirectives[].Code,* *AdvanceDirectives[].StartDate,* *Allergies[].Type.Code,* *Allergies[].Substance.Code,* *Allergies[].Reaction[].Code,* *Allergies[].Status.Code,* *ChiefComplaintText,* *Encounters[].Type.Code,* *Encounters[].DateTime,* *FamilyHistory[].Relation.Code,* *FamilyHistory[].Problems[].Code,* *FamilyHistory[].Problems[].Type.Code,* *Immunizations[].DateTime,* *Immunizations[].Product.Code,* *InstructionsText,* *InterventionsText,* *MedicalEquipment[].Status,* *Medications[].Prescription,* *Medications[].StartDate,* *Medications[].Product.Code,* *MedicationsAdministered[].StartDate,* *MedicationsAdministered[].Product.Code,* *ObjectiveText,* *PhysicalExamText,* *Problems[].Code,* *Problems[].Category.Code,* *Results[].Code,* *Results[].Status,* *Results[].Observations[].Code,* *Results[].Observations[].Status,* *Results[].Observations[].DateTime,* *Results[].Observations[].Value,* *Results[].Observations[].Units,* *ReviewOfSystemsText,* *SubjectiveText,* *VitalSigns[].Observations[].Code,* *VitalSigns[].Observations[].Status,* *VitalSigns[].Observations[].DateTime,* *VitalSigns[].Observations[].Value,* *VitalSigns[].Observations[].Units* |Returns JSON Response
 |3 |Clinical Decision(Request) |POST Request |The Clinical Decision Support (CDS) data model contains Request and Response events. The Request event is used to initiate the CDS workflow and communicate required information to the responding application, which can then use the Response event to send back clinical insights, observations, and recommendations. |Required fields are *Meta.DataModel,* *Meta.EventType,* *Patient.Identifiers[].ID,* *Patient.Identifiers[].IDType*, *UnsignedMedicationOrders[].Identifiers[].ID*, *UnsignedMedicationOrders[].Identifiers[].IDType*, *UnsignedProcedureOrders[].Identifiers[].ID,* *UnsignedProcedureOrders[].Identifiers[].IDType,* |Returns JSON Response
 |4 |Clinical Decision(Response) |POST Request |The Clinical Decision Support (CDS) data model contains Request and Response events. The Request event is used to initiate the CDS workflow and communicate required information to the responding application, which can then use the Response event to send back clinical insights, observations, and recommendations. |Required fields are *Meta.DataModel,* *Meta.EventType,* *Advisories[].Session,* |Returns JSON Response
 |5 |Claim(Submission) |POST Request |A Submission message is used to send a payment request, typically from a healthcare provider to an insurer. This is commonly sent as an EDI 837 form by healthcare providers. |Required fields are *Meta.DataModel,* *Meta.EventType*, |Returns JSON Response
@@ -137,3 +139,280 @@ To use Redox Connector, you will require the following configuration properties.
     Secret: Secret is one of the token generation paramter which you will get from Redox Engine.
 
     Connection timeout: Timeout for connection, in Seconds(Default).
+
+==  ⦁   TO CONNECT IN DESIGN CENTER
+
+⦁ In Design Centre, click Create and choose Mule Application.
+
+⦁ Click a trigger such as an HTTP Listener or the Scheduler trigger.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==  ⦁   USE CASE :
+== Inpatient
+* Patient arrives at the hospital [Timothy Bixby]
+* Patient has some labs results completed [CBC]
+* Patient is discharged from the hospital [Timothy Bixby]
+
+== Outpatient
+* Create Appointment 1 [Timothy Bixby]
+* Modify Appointment 1 [Timothy Bixby]
+* Cancel Appointment 1 [Timothy Bixby]
+* Create Appointment 2 [Timothy Bixby]
+
+*For running this use-case we need following configurations as prerequisites:*
+
+⦁ Drag and drop an HTTP Listener in the canvas.
+
+⦁ In the Listener properties, give a path you want to use to trigger the listener.
+
+⦁ Add a new Configuration as follows,
+
+image::img/HTTP_Listener_Config.png[]
+
+⦁ Test the connection and click on Okay.
+
+⦁ Make sure your mule palette has Redox module. If you do not have Redox module in your palette, go to search in exchange -> search for Redox and click on Add.
+
+⦁ Now add configurations for Redox.
+
+⦁ Go to global-configurations.xml global elements -> create -> Connector Configuration -> Redox Config
+
+⦁ Add following properties.
+
+    Base Uri : (Default)
+    Access token url : (Default)
+    Api Key :
+    Secret :
+
+
+image::img/global_config.png[]
+
+image::img/global_config_advanced.png[]
+
+⦁	Create a flow with the components displayed in the image below:
+
+image::img/patient_functional_demo.png[]
+
+⦁	*Individual mappings for each component are illustrated in below screenshots:*
+
+*->SET FV vPatientEntryPayload*
+
+This Set Variable used to set the payload for new patient registration.
+
+*->SET FV visitNumber*
+
+This Set Variable used to set the Visit Number.
+
+*->Logger*
+
+All Loggers are used for printing success messages.
+
+*-> Register New Patient*
+
+image::img/patient_admin_new.png[]
+
+*-> DW Map to Common Object*
+
+image::img/dw_map_common_object.png[]
+
+*-> Add Patients new observations to Flowsheet*
+
+image::img/add_patient_to_observation.png[]
+
+ %dw 2.0
+ output application/json
+ ---
+ {
+   "Meta" :
+     {
+      "DataModel": "Flowsheet",
+      "EventType": "New"
+     }++ vars.meta
+ } ++
+ {
+   "Patient" : {
+       "Identifiers":vars.identifier,
+       "Demographics": vars.demographics,
+       "Notes": vars.notes,
+       "Contacts": vars.contacts
+ 	}
+ } ++
+ {
+ 	"Visit" : vars.visit
+ } ++
+ {
+ 	"Observations": vars.observations
+ }
+
+*-> Discharge Patient*
+
+image::img/discharge_patient.png[]
+
+ %dw 2.0
+ output application/json
+ ---
+ {
+	"Meta" : {
+		"DataModel": "PatientAdmin",
+		"EventType": "Discharge"
+	} ++ vars.meta
+ } ++
+ {
+	"Patient" : {
+		"Identifiers": vars.identifier,
+		"Demographics": vars.demographics,
+		"Notes": vars.notes,
+		"Contacts": vars.contacts,
+		"Diagnoses": vars.Diagnoses,
+		"Allergies": vars.allergies,
+		"PCP": vars.pcp
+	}
+ } ++
+ {
+	"Visit": vars.dischargeVisit
+ }
+
+
+*-> Refer To sf-outpatient-functional-usecase*
+
+This flow reference refer to the Sub flow 'sf-outpatient-functional-usecase'.
+
+*-> Schedule New Appointment1*
+
+image::img/schedule_new_appointment1.png[]
+
+ %dw 2.0
+ output application/json
+ ---
+ {
+	"Meta" : {
+		"DataModel": "Scheduling",
+		"EventType": "New"
+	} ++ vars.meta
+} ++
+{
+	"Patient" : {
+		"Identifiers": vars.identifier,
+		"Demographics": vars.demographics,
+		"Notes": vars.notes
+	}
+} ++
+{
+    "AppointmentInfo": vars.appointmentInfo
+} ++
+{
+    "Visit": vars.schedulingVisit
+}
+
+
+*-> Modify Appointment1*
+
+image::img/modify_appointment1.png[]
+
+ %dw 2.0
+ output application/json
+ import * from dw::util::Values
+ ---
+ {
+	"Meta": {
+		"DataModel": "Scheduling",
+		"EventType": "Modification"
+	} ++ vars.meta
+ } ++
+ {
+	"Patient": {
+		"Identifier": vars.identifier,
+		"Demographics": vars.demographics,
+		"Notes": vars.notes
+	}
+ } ++
+ {
+    "AppointmentInfo": vars.appointmentInfo
+ } ++
+ //update the duration and visitDateTime
+ {
+    "Visit": (vars.schedulingVisit update "Duration" with "40") update "VisitDateTime" with "2020-06-27T12:23:55.693Z"
+ }
+
+
+
+*-> Cancel Appointment1*
+
+image::img/cancel_appointment1.png[]
+
+ %dw 2.0
+ output application/json
+ import * from dw::util::Values
+ ---
+ {
+    "Meta" :{
+     "DataModel": "Scheduling",
+     "EventType": "Cancel"
+ } ++ vars.meta
+ } ++
+ {
+    "Patient" : {
+    "Identifiers": vars.identifier,
+    "Demographics":vars.demographics,
+    "Notes": vars.notes
+ }
+ } ++
+ {
+    "AppointmentInfo": vars.appointmentInfo
+ } ++
+ {
+    "Visit":(vars.schedulingVisit update "Duration" with "40") update "VisitDateTime" with "2020-06-27T12:23:55.693Z" ++ "CancelReason": "Conflicting appointment"
+ }
+
+*-> Schedule New Appointment2*
+
+image::img/schedule_new_appointment2.png[]
+
+ %dw 2.0
+ output application/json
+ import * from dw::util::Values
+ ---
+ {
+    "Meta" : {
+        "DataModel": "Scheduling",
+        "EventType": "New"
+ } ++ vars.meta
+ } ++
+ {
+    "Patient" : {
+    "Identifiers": vars.identifier,
+    "Demographics": vars.demographics,
+    "Notes": vars.notes
+ }
+ } ++
+ {
+    "AppointmentInfo": vars.appointmentInfo
+ } ++
+ //scheduled new appointment
+ {
+    "Visit": vars.schedulingVisit update field("VisitDateTime") with "2020-07-28T12:00:05.693Z"
+ }
+
+⦁   *Install Redox Connector in Anypoint Studio*
+
+link:user-manual.adoc[]
+
+⦁	*About Connector Namespace and Schema*
+
+When designing your application in Studio, drag and drop the connector in your canvas and the Namespace and schema get populated in the config file as below,
+
+*Namespace:*   http://www.mulesoft.org/schema/mule/redox
+
+*Schema Location:*  http://www.mulesoft.org/schema/mule/redox/current/mule-redox.xsd
