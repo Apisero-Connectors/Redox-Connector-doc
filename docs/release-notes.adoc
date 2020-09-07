@@ -18,7 +18,7 @@ The Redox Connector is compatible with these software versions:
 |Anypoint Studio |7.4.x
 |Mule |4.2.x and later
 |JDK |1.8.x and later
-|Redox Engine |1.0.3 and later
+|Redox Engine |Compatible with Redox as of.
 |===
 
 

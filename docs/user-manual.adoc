@@ -41,7 +41,7 @@ You can use REDOX Connector in Anypoint Studio by adding it as a dependency in y
 <dependency>
     <groupId>com.mulesoft.connectors</groupId>
     <artifactId>redox</artifactId>
-    <version>2.0.0</version>
+    <version>1.0.0</version>
     <classifier>mule-plugin</classifier>
 </dependency>
 ```
