@@ -1,12 +1,12 @@
 = Redox Connector Release Notes
 
-October 2020
+13th October 2020
 
 _MuleSoft Certified_
 
 The Redox connector allows for connectivity to Redox Engine and can be used in both on-premises and CloudHub environments.
 
-== Version 1.0.0 - 2020-10
+== Version 1.0.0 - 13-10-2020
 This release of Redox Connector is compatible with Mule 4, and it is not compatible with Mule 3 versions.
 
 == Version 1.0.0 - Compatibility
